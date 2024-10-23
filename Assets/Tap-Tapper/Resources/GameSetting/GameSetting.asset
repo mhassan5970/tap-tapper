@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb464f1c6e745af4ea5ef25648354ce4, type: 3}
+  m_Name: GameSetting
+  m_EditorClassIdentifier: 
+  splashDuration: 0.5
+  gameTimers: 
+  enduranceGameTime: 5
+  btnAgilityTap: {fileID: 5356557970295625737, guid: f07bfb44c2301654eb7c923063d33443, type: 3}
+  backGrounds:
+  - playMode: 0
+    themeAudio: {fileID: 11400000, guid: 4bc51d76ecb2c3042a55827384062e5d, type: 2}
+    spriteBackGrounds:
+    - {fileID: 21300000, guid: 5842e9c89ced19146a5aa5e2cde30981, type: 3}
+  - playMode: 1
+    themeAudio: {fileID: 11400000, guid: 9595af360d4caed44882cf50509b48a4, type: 2}
+    spriteBackGrounds:
+    - {fileID: 21300000, guid: 89e4570a969e3f64e88e117b4dc67880, type: 3}
+  - playMode: 2
+    themeAudio: {fileID: 11400000, guid: 5446f63af3105a04a83e9421ca0e5a28, type: 2}
+    spriteBackGrounds:
+    - {fileID: 21300000, guid: 5346d229a651a6044b8bd1ab50b98a41, type: 3}
+  - playMode: 3
+    themeAudio: {fileID: 11400000, guid: a943ffec9a4e61843ad702ccf1cbc884, type: 2}
+    spriteBackGrounds:
+    - {fileID: 21300000, guid: f8bddd542652631489ff25caa08dfec9, type: 3}
+  spritePlayer1: {fileID: -104674935, guid: a2a93eb88e4915842b4d47c699e10a54, type: 3}
+  spritePlayer2: {fileID: -773364812, guid: a2a93eb88e4915842b4d47c699e10a54, type: 3}
