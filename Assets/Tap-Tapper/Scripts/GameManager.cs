@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [Header("GamePlay - Stats")]
     public int taps = 0;
     public float gamePlayTimer;
+    public float endurancePlayDuration;
 
     [Header("UI - Background Image")]
     public Image imgCanvasBg;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     [Header("UI - References")]
     public TextMeshProUGUI txtTapper;
     public TextMeshProUGUI txtTimer;
+    public TextMeshProUGUI txtEndurancePlayTime;
     public TextMeshProUGUI txtTaps;
     public TextMeshProUGUI txtHighScore;
     public TextMeshProUGUI txtTimeOverScore;
@@ -97,6 +99,8 @@ public class GameManager : MonoBehaviour
             if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
             {
                 gamePlayTimer = gameSetting.enduranceGameTime;
+                txtEndurancePlayTime.gameObject.SetActive(true);
+                endurancePlayDuration = 0;
 
             }
 
@@ -131,7 +135,7 @@ public class GameManager : MonoBehaviour
         {
             if(stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
             {
-                prepardText =  playerScoreStats.gamePlayHighScore.ToString() + " HighScore";
+                prepardText = playerScoreStats.gamePlayDuration.ToString() + " Duration\n" + playerScoreStats.gamePlayHighScore.ToString() + " HighScore";
             }
             else
             {
@@ -177,6 +181,7 @@ public class GameManager : MonoBehaviour
     {
         CheckAwayTimer();
         CheckGamePlayTime();
+        CountEndurancePlayTime();
         UpdateReactionTime();
     }
 
@@ -465,6 +470,7 @@ public class GameManager : MonoBehaviour
 
     public void EndEnduranceGame()
     {
+        playerScoreStats.gamePlayDuration = (int)endurancePlayDuration;
         gamePlayTimer = 0f;
     }
 
@@ -484,6 +490,16 @@ public class GameManager : MonoBehaviour
                 btnEndEnduranceGame.gameObject.SetActive(true);
             }
             //txtTapper.text = "Hurry Up! Tap Me!";
+        }
+    }
+
+    void CountEndurancePlayTime()
+    {
+        if(stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE && IsGameStart)
+        {
+            endurancePlayDuration += Time.deltaTime;
+
+            txtEndurancePlayTime.text = "Play Time\n" + ((int)endurancePlayDuration).ToString();
         }
     }
 
@@ -544,7 +560,10 @@ public class GameManager : MonoBehaviour
 
         panelGamePlayStats.SetActive(false);
         panelTimeOver.SetActive(true);
-        
+
+        if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE) {
+            playerScoreStats.gamePlayDuration = (int)endurancePlayDuration;
+        }
         SaveSystem.Save(playerData);
     }
 }

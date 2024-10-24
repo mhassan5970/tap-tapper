@@ -72,6 +72,7 @@ public class PlayerScoreStats
 {
     public GamePlayMode gamePlayMode;
     public float gamePlayTimer;
+    public float gamePlayDuration;
     public float gamePlayHighScore;
 }
 
