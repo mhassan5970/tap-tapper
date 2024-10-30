@@ -24,7 +24,9 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_top_tapper = "CgkIyPXP5_4EEAIQAQ"; // <GPGSID>
+        public const string leaderboard_speed__10 = "CgkIyPXP5_4EEAIQAg"; // <GPGSID>
+        public const string leaderboard_speed__30 = "CgkIyPXP5_4EEAIQBA"; // <GPGSID>
+        public const string leaderboard_speed__20 = "CgkIyPXP5_4EEAIQAw"; // <GPGSID>
 
 }
 

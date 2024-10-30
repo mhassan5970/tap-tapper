@@ -45,7 +45,7 @@ public class Services : MonoBehaviour
     public void ShowLeaderBoard()
     {
         if (PlayGamesPlatform.Instance.IsAuthenticated()) {
-            Social.ShowLeaderboardUI();
+            //Social.ShowLeaderboardUI();
             PlayGamesPlatform.Instance.ShowLeaderboardUI();
         }
         else

@@ -1,7 +1,9 @@
+using GooglePlayGames;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -71,6 +73,8 @@ public class GameManager : MonoBehaviour
     public GameObject bottomPanelSingle;
     public GameObject bottomPanelMultiplayer;
 
+    public string currentLeaderBoardID = "";
+
     [Space]
     public float awayDuration = 1f;
     public float awayDurationTimer;
@@ -123,6 +127,10 @@ public class GameManager : MonoBehaviour
         btnStartMultiplayer.onClick.AddListener(delegate { MultiplayerCountDown(); });
 
         ActivateTapPanel();
+        if(stateManager.GetPlayerPlayType() == PlayerPlayType.SINGLE)
+        {
+            SetLeaderBoardID();
+        }
     }
 
     string LoadPlayerGamePlayStats()
@@ -564,6 +572,91 @@ public class GameManager : MonoBehaviour
         if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE) {
             playerScoreStats.gamePlayDuration = (int)endurancePlayDuration;
         }
+
+        if ((stateManager.GetGamePlayMode() == GamePlayMode.SPEED || stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE || stateManager.GetGamePlayMode() == GamePlayMode.AGILITY) && stateManager.GetPlayerPlayType() == PlayerPlayType.SINGLE)
+        {
+            PostScoreToLeaderboard(taps);
+        }
         SaveSystem.Save(playerData);
+    }
+
+    void SetLeaderBoardID()
+    {
+        if (stateManager.GetGamePlayMode() == GamePlayMode.SPEED)
+        {
+            currentLeaderBoardID = GetSpeedTimeLeaderBoardID(stateManager.selectedGameTimer);
+        }
+        else if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
+        {
+            currentLeaderBoardID = GetEnduranceLeaderBoardID();
+        }
+        else if (stateManager.GetGamePlayMode() == GamePlayMode.AGILITY)
+        {
+            currentLeaderBoardID = GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer);
+        }
+    }
+    public void ShowLeaderBoard()
+    {
+        if(stateManager.GetGamePlayMode() == GamePlayMode.SPEED)
+        {
+            AudioManager.Instance.PlayAudioEffect("click");
+            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetSpeedTimeLeaderBoardID(stateManager.selectedGameTimer));
+        }else if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
+        {
+            AudioManager.Instance.PlayAudioEffect("click");
+            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetEnduranceLeaderBoardID());
+        }
+        else if (stateManager.GetGamePlayMode() == GamePlayMode.AGILITY)
+        {
+            AudioManager.Instance.PlayAudioEffect("click");
+            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer));
+        }
+    }
+
+    public void PostScoreToLeaderboard(long score)
+    {
+        PlayGamesPlatform.Instance.ReportScore(score, currentLeaderBoardID, (bool success) => {
+            if (success)
+            {
+                Debug.Log("Successfully posted score");
+            }
+            else
+            {
+                Debug.Log("Failed to post score");
+            }
+        });
+    }
+
+    string GetSpeedTimeLeaderBoardID(int gamePlayTimer)
+    {
+        string leaderboardId = gamePlayTimer switch
+        {
+            10 => "CgkIyPXP5_4EEAIQAg",
+            20 => "CgkIyPXP5_4EEAIQAw",
+            30 => "CgkIyPXP5_4EEAIQBA",
+            _ => "",
+        };
+
+        return leaderboardId;
+    }
+
+    string GetEnduranceLeaderBoardID()
+    {
+        string leaderboardId = "CgkIyPXP5_4EEAIQBQ";
+
+        return leaderboardId;
+    }
+
+    string GetAgilityTimeLeaderBoardID(int gamePlayTimer)
+    {
+        string leaderboardId = gamePlayTimer switch
+        {
+            10 => "CgkIyPXP5_4EEAIQBg",
+            20 => "CgkIyPXP5_4EEAIQBw",
+            30 => "CgkIyPXP5_4EEAIQCA",
+            _ => "",
+        };
+
+        return leaderboardId;
     }
 }
