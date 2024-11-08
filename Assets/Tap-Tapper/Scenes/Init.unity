@@ -788,10 +788,6 @@ MonoBehaviour:
     saveVersion: 1
     playerName: Username
     playerStats:
-      highScore_Speed: 0
-      highScore_Endurance: 0
-      highScore_Agility: 0
-      highScore_Reaction: 0
       stats: []
     PlayerSoundSetting:
       audioThemeActive: 1
@@ -1149,7 +1145,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

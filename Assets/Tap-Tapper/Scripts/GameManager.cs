@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
             {
                 txtTaps.gameObject.SetActive(false);
                 btnStartReaction.onClick.AddListener(delegate { CallStartReactionMode(); });
+                txtHighScore.gameObject.SetActive(false);
             }
 
             txtHighScore.text = LoadPlayerGamePlayStats();
@@ -143,7 +144,8 @@ public class GameManager : MonoBehaviour
         {
             if(stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
             {
-                prepardText = playerScoreStats.gamePlayDuration.ToString() + " Duration\n" + playerScoreStats.gamePlayHighScore.ToString() + " HighScore";
+                //prepardText = playerScoreStats.gamePlayDuration.ToString() + " Duration\n" + playerScoreStats.gamePlayHighScore.ToString() + " HighScore";
+                prepardText = playerScoreStats.gamePlayHighScore.ToString() + " HighScore";
             }
             else
             {
@@ -555,7 +557,8 @@ public class GameManager : MonoBehaviour
 
             if(stateManager.GetGamePlayMode() == GamePlayMode.REACTION)
             {
-                txtTimeOverScore.text = txtTimer.text;
+                string formattedValue = gamePlayTimer.ToString("0.000");
+                txtTimeOverScore.text = formattedValue;
             }
         }
         else
@@ -566,14 +569,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                string formattedValue = gamePlayTimer.ToString("0.000");
                 if (IsTapOnePressed)
                 {
-                    txtTimeOverScore.text = "Red Player\n" + txtTimer.text + "\n Blue Player\n" + taps2.ToString();
+                    
+                    txtTimeOverScore.text = "Red Player\n" + formattedValue + "\n Blue Player\n" + taps2.ToString();
                     
                 }
                 if (IsTapTwoPressed)
                 {
-                    txtTimeOverScore.text = "Red Player\n" + taps1.ToString() + "\n Blue Player\n" + txtTimer.text;
+                    txtTimeOverScore.text = "Red Player\n" + taps1.ToString() + "\n Blue Player\n" + formattedValue;
 
                 }
 
