@@ -233,7 +233,18 @@ public class GameManager : MonoBehaviour
 
     public void UpdateTaps()
     {
-        if (IsTimeOver || (!IsReactionStarted && stateManager.GetGamePlayMode() == GamePlayMode.REACTION)) return;
+        if (IsTimeOver || (!IsReactionStarted && stateManager.GetGamePlayMode() == GamePlayMode.REACTION))
+        {
+            if(txtTapper.text == "" && !IsReactionStarted)
+            {
+                StopAllCoroutines();
+                IsGameStart = true;
+                IsTimeOver = true;
+                TimeOver();
+                txtTimeOverScore.text = "You tapped too early";
+            }
+            return;
+        }
 
         if (!IsGameStart)
         {
@@ -474,6 +485,9 @@ public class GameManager : MonoBehaviour
         {
             playerScoreStats.gamePlayHighScore = gamePlayTimer;
         }
+
+        //int reactionTimeInMilliseconds = Mathf.RoundToInt(gamePlayTimer * 1000);
+        //PostScoreToLeaderboard(reactionTimeInMilliseconds);
     }
 
     public void EndEnduranceGame()
@@ -594,6 +608,10 @@ public class GameManager : MonoBehaviour
         {
             currentLeaderBoardID = GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer);
         }
+        else if (stateManager.GetGamePlayMode() == GamePlayMode.REACTION)
+        {
+            currentLeaderBoardID = GetReactionLeaderBoardID();
+        }
     }
     public void ShowLeaderBoard()
     {
@@ -611,6 +629,11 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.PlayAudioEffect("click");
             PlayGamesPlatform.Instance.ShowLeaderboardUI(GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer));
         }
+        //else if (stateManager.GetGamePlayMode() == GamePlayMode.REACTION)
+        //{
+        //    AudioManager.Instance.PlayAudioEffect("click");
+        //    PlayGamesPlatform.Instance.ShowLeaderboardUI(GetReactionLeaderBoardID());
+        //}
     }
 
     public void PostScoreToLeaderboard(long score)
@@ -643,6 +666,13 @@ public class GameManager : MonoBehaviour
     string GetEnduranceLeaderBoardID()
     {
         string leaderboardId = "CgkIyPXP5_4EEAIQBQ";
+
+        return leaderboardId;
+    }
+
+    string GetReactionLeaderBoardID()
+    {
+        string leaderboardId = "CgkIyPXP5_4EEAIQCQ";
 
         return leaderboardId;
     }

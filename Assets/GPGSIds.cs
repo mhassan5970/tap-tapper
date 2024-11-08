@@ -24,9 +24,13 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_speed__10 = "CgkIyPXP5_4EEAIQAg"; // <GPGSID>
+        public const string leaderboard_endurance = "CgkIyPXP5_4EEAIQBQ"; // <GPGSID>
+        public const string leaderboard_agility__10 = "CgkIyPXP5_4EEAIQBg"; // <GPGSID>
+        public const string leaderboard_agility__20 = "CgkIyPXP5_4EEAIQBw"; // <GPGSID>
         public const string leaderboard_speed__30 = "CgkIyPXP5_4EEAIQBA"; // <GPGSID>
         public const string leaderboard_speed__20 = "CgkIyPXP5_4EEAIQAw"; // <GPGSID>
+        public const string leaderboard_agility__30 = "CgkIyPXP5_4EEAIQCA"; // <GPGSID>
+        public const string leaderboard_speed__10 = "CgkIyPXP5_4EEAIQAg"; // <GPGSID>
 
 }
 
