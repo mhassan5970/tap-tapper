@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_ANDROID
 using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 using GooglePlayGames.BasicApi;
+#elif UNITY_IOS
+using AppAdvisory.social;
+#endif
 public class Services : MonoBehaviour
 {
+#if UNITY_ANDROID
     void Start()
     {
         SignIn();
@@ -14,8 +19,10 @@ public class Services : MonoBehaviour
     public void SignIn()
     {
         Debug.Log("Starting Play Service");
+
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+
     }
     internal void ProcessAuthentication(SignInStatus status)
     {
@@ -40,10 +47,12 @@ public class Services : MonoBehaviour
             // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).
         }
     }
+#endif
 
 
     public void ShowLeaderBoard()
     {
+#if UNITY_ANDROID
         if (PlayGamesPlatform.Instance.IsAuthenticated()) {
             //Social.ShowLeaderboardUI();
             PlayGamesPlatform.Instance.ShowLeaderboardUI();
@@ -53,6 +62,9 @@ public class Services : MonoBehaviour
             Debug.Log("Not Authenticated");
             SignIn();
         }
+#elif UNITY_IOS
+        LeaderboardManager.ShowLeaderboardUI();
+#endif
     }
 
 }

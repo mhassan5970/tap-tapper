@@ -1,4 +1,8 @@
+#if UNITY_ANDROID
 using GooglePlayGames;
+#elif UNITY_IOS
+using AppAdvisory.social;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -623,16 +627,32 @@ public class GameManager : MonoBehaviour
         if(stateManager.GetGamePlayMode() == GamePlayMode.SPEED)
         {
             AudioManager.Instance.PlayAudioEffect("click");
-            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetSpeedTimeLeaderBoardID(stateManager.selectedGameTimer));
-        }else if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
+            #if UNITY_ANDROID
+                  PlayGamesPlatform.Instance.ShowLeaderboardUI(GetSpeedTimeLeaderBoardID(stateManager.selectedGameTimer));
+            #elif UNITY_IOS
+                        LeaderboardManager.ShowLeaderboardUI();
+            #endif
+           
+        }
+        else if (stateManager.GetGamePlayMode() == GamePlayMode.ENDURANCE)
         {
             AudioManager.Instance.PlayAudioEffect("click");
-            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetEnduranceLeaderBoardID());
+
+            #if UNITY_ANDROID
+              PlayGamesPlatform.Instance.ShowLeaderboardUI(GetEnduranceLeaderBoardID());
+            #elif UNITY_IOS
+            LeaderboardManager.ShowLeaderboardUI();
+            #endif
         }
         else if (stateManager.GetGamePlayMode() == GamePlayMode.AGILITY)
         {
             AudioManager.Instance.PlayAudioEffect("click");
-            PlayGamesPlatform.Instance.ShowLeaderboardUI(GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer));
+            #if UNITY_ANDROID
+                                    PlayGamesPlatform.Instance.ShowLeaderboardUI(GetAgilityTimeLeaderBoardID(stateManager.selectedGameTimer));
+            #elif UNITY_IOS
+                        LeaderboardManager.ShowLeaderboardUI();
+            #endif
+
         }
         //else if (stateManager.GetGamePlayMode() == GamePlayMode.REACTION)
         //{
@@ -643,7 +663,8 @@ public class GameManager : MonoBehaviour
 
     public void PostScoreToLeaderboard(long score)
     {
-        PlayGamesPlatform.Instance.ReportScore(score, currentLeaderBoardID, (bool success) => {
+#if UNITY_ANDROID
+           PlayGamesPlatform.Instance.ReportScore(score, currentLeaderBoardID, (bool success) => {
             if (success)
             {
                 Debug.Log("Successfully posted score");
@@ -653,37 +674,64 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Failed to post score");
             }
         });
+#elif UNITY_IOS
+        LeaderboardManager.ReportScore(currentLeaderBoardID,Mathf.FloorToInt(score));
+#endif
+
     }
 
     string GetSpeedTimeLeaderBoardID(int gamePlayTimer)
     {
-        string leaderboardId = gamePlayTimer switch
+#if UNITY_ANDROID
+         string leaderboardId = gamePlayTimer switch
         {
             10 => "CgkIyPXP5_4EEAIQAg",
             20 => "CgkIyPXP5_4EEAIQAw",
             30 => "CgkIyPXP5_4EEAIQBA",
             _ => "",
         };
+#elif UNITY_IOS
+        string leaderboardId = gamePlayTimer switch
+        {
+            10 => "tapper_speed10",
+            20 => "tapper_speed20",
+            30 => "tapper_speed30",
+            _ => "",
+        };
+#endif
+
+
 
         return leaderboardId;
     }
 
     string GetEnduranceLeaderBoardID()
     {
-        string leaderboardId = "CgkIyPXP5_4EEAIQBQ";
+
+#if UNITY_ANDROID
+       string leaderboardId = "CgkIyPXP5_4EEAIQBQ";
+#elif UNITY_IOS
+        string leaderboardId = "tapper_endurance";
+#endif
 
         return leaderboardId;
     }
 
     string GetReactionLeaderBoardID()
     {
-        string leaderboardId = "CgkIyPXP5_4EEAIQCQ";
+#if UNITY_ANDROID
+       string leaderboardId = "CgkIyPXP5_4EEAIQCQ";
+#elif UNITY_IOS
+        string leaderboardId = "tapper_reaction";
+#endif
 
         return leaderboardId;
     }
 
     string GetAgilityTimeLeaderBoardID(int gamePlayTimer)
     {
+
+#if UNITY_ANDROID
         string leaderboardId = gamePlayTimer switch
         {
             10 => "CgkIyPXP5_4EEAIQBg",
@@ -691,6 +739,15 @@ public class GameManager : MonoBehaviour
             30 => "CgkIyPXP5_4EEAIQCA",
             _ => "",
         };
+#elif UNITY_IOS
+        string leaderboardId = gamePlayTimer switch
+        {
+            10 => "tapper_agility10",
+            20 => "tapper_agility20",
+            30 => "tapper_agility30",
+            _ => "",
+        };
+#endif
 
         return leaderboardId;
     }
